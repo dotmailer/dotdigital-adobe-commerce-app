@@ -1,0 +1,104 @@
+{
+  "product": {
+    "commerce": {
+      "com.adobe.commerce.observer.catalog_product_delete_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "id": 2,
+            "sku": "24-MB01",
+            "name": "Joust Duffle Bag",
+            "created_at": "2024-06-12 16:31:43",
+            "updated_at": "2024-08-05 10:03:49",
+            "description": "Comfortable sporty duffel bag"
+          }
+        }
+      },
+      "com.adobe.commerce.observer.catalog_product_save_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "id": 2,
+            "sku": "24-MB01",
+            "name": "Joust Duffle Bag",
+            "created_at": "2024-06-12 16:31:43",
+            "updated_at": "2024-08-05 10:03:49",
+            "description": "Comfortable sporty duffel bag"
+          }
+        }
+      }
+    }
+  },
+  "customer": {
+    "commerce": {
+      "com.adobe.commerce.observer.customer_save_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "id": 123,
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@fakedomain.com",
+            "created_at": "2024-06-12 16:31:43",
+            "updated_at": "2024-08-05 10:03:49"
+          }
+        }
+      },
+      "com.adobe.commerce.observer.customer_delete_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "id": 123,
+            "firstname": "John",
+            "lastname": "Doe",
+            "email": "john.doe@fakedomain.com"
+          }
+        }
+      },
+      "com.adobe.commerce.observer.customer_group_save_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "customer_group_code": "VIP",
+            "tax_class_id": 3,
+            "extension_attributes": {
+              "exclude_website_ids": []
+            },
+            "customer_group_id": "18"
+          }
+        }
+      },
+      "com.adobe.commerce.observer.customer_group_delete_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "customer_group_code": "VIP",
+            "customer_group_id": "18",
+            "tax_class_id": "3"
+          }
+        }
+      }
+    }
+  },
+  "order": {
+    "commerce": {
+      "com.adobe.commerce.observer.sales_order_save_commit_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "id": "12",
+            "increment_id": "000000012",
+            "created_at": "2024-08-05 14:34:19",
+            "updated_at": "2024-08-05 14:34:19"
+          }
+        }
+      }
+    }
+  },
+  "subscriber": {
+    "commerce": {
+      "com.adobe.commerce.observer.newsletter_subscriber_save_after": {
+        "sampleEventTemplate": {
+          "value": {
+            "subscriber_id": 1,
+            "subscriber_email": "chaz@emailsim.io",
+            "subscriber_status": 1
+          }
+        }
+      }
+    }
+  }
+}
