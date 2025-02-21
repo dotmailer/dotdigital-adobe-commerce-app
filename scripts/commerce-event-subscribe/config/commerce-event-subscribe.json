@@ -58,18 +58,6 @@
         },
         {
           "name": "email"
-        },
-        {
-          "name": "firstname"
-        },
-        {
-          "name": "lastname"
-        },
-        {
-          "name": "created_at"
-        },
-        {
-          "name": "updated_at"
         }
       ]
     }
@@ -79,36 +67,7 @@
       "name": "observer.customer_delete_commit_after",
       "fields": [
         {
-          "name": "id"
-        },
-        {
           "name": "email"
-        },
-        {
-          "name": "firstname"
-        },
-        {
-          "name": "lastname"
-        }
-      ]
-    }
-  },
-  {
-    "event": {
-      "name": "observer.customer_group_save_commit_after",
-      "fields": [
-        {
-          "name": "*"
-        }
-      ]
-    }
-  },
-  {
-    "event": {
-      "name": "observer.customer_group_delete_commit_after",
-      "fields": [
-        {
-          "name": "*"
         }
       ]
     }
