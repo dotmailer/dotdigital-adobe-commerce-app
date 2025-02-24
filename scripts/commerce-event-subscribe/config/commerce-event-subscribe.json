@@ -1,50 +1,46 @@
 [
   {
     "event": {
-      "name": "observer.catalog_product_delete_commit_after",
-      "fields": [
-        {
-          "name": "id"
-        },
-        {
-          "name": "sku"
-        },
-        {
-          "name": "name"
-        },
-        {
-          "name": "created_at"
-        },
-        {
-          "name": "updated_at"
-        },
-        {
-          "name": "description"
-        }
-      ]
-    }
-  },
-  {
-    "event": {
       "name": "observer.catalog_product_save_commit_after",
       "fields": [
         {
           "name": "id"
         },
         {
-          "name": "sku'"
+          "name": "entity_id"
         },
         {
           "name": "name"
         },
         {
+          "name": "sku"
+        },
+        {
+          "name": "stock_data.qty"
+        },
+        {
+          "name": "price"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "type_id"
+        },
+        {
+          "name": "url_key"
+        },
+        {
+          "name": "image"
+        },
+        {
           "name": "created_at"
         },
         {
-          "name": "updated_at"
+          "name": "parent_id"
         },
         {
-          "name": "description"
+          "name": "store_ids"
         }
       ]
     }
