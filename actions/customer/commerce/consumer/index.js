@@ -137,7 +137,7 @@ class ContactPatchHandler {
           email: customerData.email
         },
         dataFields: await this.mapContactDataFields(dataFieldMapping, customerData),
-        lists: customerData.lists || [Number(params.DOTDIGITAL_LIST_ID)]
+        lists: customerData.lists || [Number(params.DOTDIGITAL_LIST_CUSTOMER)]
       }
 
       const dotdigitalContact = await this.dotdigitalApi.patchContactByEmail(customerData.email, contact)
