@@ -73,16 +73,55 @@
       "name": "observer.sales_order_save_commit_after",
       "fields": [
         {
-          "name": "id"
+          "name": "entity_id"
         },
         {
-          "name": "increment_id"
+          "name": "grand_total"
+        },
+        {
+          "name": "order_currency_code"
         },
         {
           "name": "created_at"
         },
         {
-          "name": "updated_at"
+          "name": "subtotal"
+        },
+        {
+          "name": "items"
+        },
+        {
+          "name": "customer_email"
+        },
+        {
+          "name": "increment_id"
+        },
+        {
+          "name": "quote_id"
+        },
+        {
+          "name": "status"
+        },
+        {
+          "name": "addresses"
+        },
+        {
+          "name": "store_name"
+        },
+        {
+          "name": "discount_amount"
+        },
+        {
+          "name": "payment"
+        },
+        {
+          "name": "shipping_description"
+        },
+        {
+          "name": "shipping_amount"
+        },
+        {
+          "name": "coupon_code"
         }
       ]
     }
