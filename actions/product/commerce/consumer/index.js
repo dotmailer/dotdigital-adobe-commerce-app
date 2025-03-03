@@ -84,11 +84,8 @@ class ProductConsumer {
         productData.parent_id = product.parent_id
         productData.type = 'Variant'
       }
-      const payload = {
-        Json: JSON.stringify(productData)
-      }
 
-      const response = await this.dotdigitalApi.postProductById(product.entity_id, params.DOTDIGITAL_CATALOG_COLLECTION_NAME, payload)
+      const response = await this.dotdigitalApi.putProductById(product.entity_id, params.DOTDIGITAL_CATALOG_COLLECTION_NAME, productData)
 
       returnObject.statusCode = 200
       returnObject.body = Buffer.from(JSON.stringify(response)).toString()
