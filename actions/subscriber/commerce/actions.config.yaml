@@ -1,6 +1,6 @@
 consumer:
   function: consumer/index.js
-  web: 'yes'
+  web: 'no'
   runtime: nodejs:20
   inputs:
     DOTDIGITAL_API_URL: $DOTDIGITAL_API_URL

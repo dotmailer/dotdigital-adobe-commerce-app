@@ -1,6 +1,7 @@
 application:
   hooks:
-      post-app-deploy: ./hooks/post-app-deploy.js
+    post-app-deploy: ./hooks/post-app-deploy.js
+    pre-app-deploy: ./hooks/pre-app-deploy.js
   runtimeManifest:
     packages:
       product-commerce:

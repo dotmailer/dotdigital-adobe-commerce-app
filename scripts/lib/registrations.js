@@ -96,10 +96,13 @@ async function main (clientRegistrations, providers, environment, accessToken) {
  * @returns {object} - returns success status and registration info
  */
 async function createRequestRegistration (accessToken, entityName, providerKey, events, environment) {
+  const environmentState = process.env.PRODUCTION_STATE
+  const actionRegistrationType = (environmentState === 'production') ? 'consumer' : '__secured_consumer'
+
   const body = JSON.stringify(
     {
       client_id: `${environment.OAUTH_CLIENT_ID}`,
-      runtime_action: `${entityName}-${providerKey}/consumer`,
+      runtime_action: `${entityName}-${providerKey}/${actionRegistrationType}`,
       name: getRegistrationName(providerKey, entityName),
       description: getRegistrationName(providerKey, entityName),
       events_of_interest: events,
