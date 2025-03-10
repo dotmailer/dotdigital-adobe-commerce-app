@@ -1,31 +1,8 @@
-const { Core } = require('@adobe/aio-sdk')
 const { errorResponse, stringParameters } = require('../../../utils')
 const { getSubscriberStatusString } = require('../../../../utils/subscriber-status')
-const { CommerceApi, DotdigitalApi } = require('../../../../lib')
+const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger } } = require('../../../mixable')
 
-class SubscriberConsumer {
-  /**
-   * Create a SubscriberConsumer.
-   * @param {object} params - The parameters for the handler.
-   */
-  constructor (params) {
-    this.logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' })
-
-    this.commerceApi = new CommerceApi({
-      url: params.COMMERCE_BASE_URL,
-      consumerKey: params.COMMERCE_CONSUMER_KEY,
-      consumerSecret: params.COMMERCE_CONSUMER_SECRET,
-      accessToken: params.COMMERCE_ACCESS_TOKEN,
-      accessTokenSecret: params.COMMERCE_ACCESS_TOKEN_SECRET
-    }, this.logger)
-    this.dotdigitalApi = new DotdigitalApi(
-      params.DOTDIGITAL_API_URL,
-      params.DOTDIGITAL_API_USER,
-      params.DOTDIGITAL_API_PASSWORD,
-      this.logger
-    )
-  }
-
+class SubscriberConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
@@ -34,6 +11,30 @@ class SubscriberConsumer {
   static async invoke (params) {
     const handler = new SubscriberConsumer(params)
     return handler.main(params)
+  }
+
+  /**
+   * Maps contact data fields for a subscriber.
+   *
+   * This function filters allowed data fields, associates them with the corresponding
+   * mapping, and then updates the subscriber object with the mapped data fields.
+   *
+   * @param {object} subscriber - The subscriber object containing subscriber details..
+   * @returns {Promise<object>} - A promise that resolves to the updated subscriber object with mapped data fields.
+   */
+  async mapContactDataFields (subscriber) {
+    const allowedDataFields = await this.filterAllowedDataFields(['SUBSCRIBER_STATUS', 'STORE_NAME', 'WEBSITE_NAME'])
+    const mappedDatafields = await this.associateDataFieldsMapping(allowedDataFields, {
+      SUBSCRIBER_STATUS: 'subscriber_status',
+      STORE_NAME: 'store_name',
+      WEBSITE_NAME: 'website_name'
+    })
+
+    subscriber.subscriber_status = getSubscriberStatusString(subscriber.subscriber_status)
+    subscriber.store_name = await this.commerceApi.getStoreViewName(subscriber.store_id)
+    subscriber.website_name = await this.commerceApi.getWebsiteName(subscriber.website_id)
+
+    return this.mapAssociatedDataFields(mappedDatafields, subscriber)
   }
 
   /**
@@ -48,19 +49,14 @@ class SubscriberConsumer {
 
       const subscriberData = params.data.value
       const eventMetaData = params.data._metadata
-      const matchIdentifier = 'email'
       const identifier = subscriberData.subscriber_email
-      const storeId = subscriberData.store_id
-      const websiteId = Number(eventMetaData.websiteId)
+
+      subscriberData.websiteId = Number(eventMetaData.website_id)
 
       const payload = {
-        matchIdentifier,
+        matchIdentifier: 'email',
         identifiers: { email: identifier },
-        dataFields: {
-          SUBSCRIBER_STATUS: getSubscriberStatusString(subscriberData.subscriber_status),
-          STORE_NAME: await this.commerceApi.getStoreViewName(storeId),
-          WEBSITE_NAME: await this.commerceApi.getWebsiteName(websiteId)
-        },
+        dataFields: await this.mapContactDataFields(subscriberData),
         lists: [Number(params.DOTDIGITAL_LIST_SUBSCRIBER)]
       }
 

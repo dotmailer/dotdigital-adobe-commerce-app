@@ -1,33 +1,10 @@
-const { Core } = require('@adobe/aio-sdk')
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { CommerceApi, DotdigitalApi } = require('../../../../lib')
+const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger } } = require('../../../mixable')
 
 /**
  * Class representing the handler for patching contacts.
  */
-class ContactPatchHandler {
-  /**
-   * Create a ContactPatchHandler.
-   * @param {object} params - The parameters for the handler.
-   */
-  constructor (params) {
-    this.logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' })
-
-    this.commerceApi = new CommerceApi({
-      url: params.COMMERCE_BASE_URL,
-      consumerKey: params.COMMERCE_CONSUMER_KEY,
-      consumerSecret: params.COMMERCE_CONSUMER_SECRET,
-      accessToken: params.COMMERCE_ACCESS_TOKEN,
-      accessTokenSecret: params.COMMERCE_ACCESS_TOKEN_SECRET
-    }, this.logger)
-    this.dotdigitalApi = new DotdigitalApi(
-      params.DOTDIGITAL_API_URL,
-      params.DOTDIGITAL_API_USER,
-      params.DOTDIGITAL_API_PASSWORD,
-      this.logger
-    )
-  }
-
+class ContactPatchHandler extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
@@ -41,22 +18,13 @@ class ContactPatchHandler {
   /**
    * Map contact data fields from customer data.
    * @param {object} dataFieldMapping - The mapping of data fields.
-   * @param {object} customerData - The customer data.
+   * @param {object} customer - The customer data.
    * @returns {Promise<object>} The mapped contact data fields.
    * @throws Will throw an error if mapping fails.
    */
-  async mapContactDataFields (dataFieldMapping, customerData) {
-    const dotdigitalDataFields = await this.dotdigitalApi.getContactDataFields()
-    const allowedDataFields = dotdigitalDataFields.filter(
-      dataField => Object.keys(dataFieldMapping).includes(dataField.name)
-    ).reduce((acc, dataField) => {
-      dataField.mapping = dataFieldMapping[dataField.name]
-      acc.push(dataField)
-      return acc
-    }, [])
-
-    const commerceCustomer = await this.commerceApi.getCustomer(customerData.id)
-    const customer = Object.assign(commerceCustomer, customerData)
+  async mapContactDataFields (dataFieldMapping, customer) {
+    const allowedDataFields = await this.filterAllowedDataFields(Object.keys(dataFieldMapping))
+    const mappedDatafields = await this.associateDataFieldsMapping(allowedDataFields, dataFieldMapping)
     const storeViews = await this.commerceApi.getStoreViews()
     const websites = await this.commerceApi.getWebsites()
     const customerGroup = await this.commerceApi.getCustomerGroup(customer.group_id)
@@ -73,12 +41,12 @@ class ContactPatchHandler {
       }
     })
 
-    customer.billing_address = commerceCustomer.addresses.find(
-      address => address.id === parseInt(commerceCustomer.default_billing)
+    customer.billing_address = customer.addresses.find(
+      address => address.id === parseInt(customer.default_billing)
     ) ?? {}
 
-    customer.shipping_address = commerceCustomer.addresses.find(
-      address => address.id === parseInt(commerceCustomer.default_shipping)
+    customer.shipping_address = customer.addresses.find(
+      address => address.id === parseInt(customer.default_shipping)
     ) ?? {}
 
     if (customer.extension_attributes?.is_subscribed) {
@@ -97,23 +65,7 @@ class ContactPatchHandler {
     delete customer.website_id
     delete customer.store_id
 
-    return allowedDataFields.reduce((acc, dataField) => {
-      if (dataField.mapping.split('.').length > 1) {
-        const [parent, child, index] = dataField.mapping.split('.')
-        if (customer[parent] && customer[parent][child]) {
-          if (index) {
-            acc[dataField.name] = customer[parent][child][index]
-          } else {
-            acc[dataField.name] = customer[parent][child]
-          }
-        }
-        return acc
-      }
-      if (customer[dataField.mapping]) {
-        acc[dataField.name] = customer[dataField.mapping]
-      }
-      return acc
-    }, {})
+    return this.mapAssociatedDataFields(mappedDatafields, customer)
   }
 
   /**
@@ -131,12 +83,15 @@ class ContactPatchHandler {
         return errorResponse(400, errorMessage + JSON.stringify(customerData), this.logger)
       }
 
+      const commerceCustomer = await this.commerceApi.getCustomer(customerData.id)
+      const customer = Object.assign(commerceCustomer, customerData)
+
       const contact = {
         matchIdentifier: 'email',
         identifiers: {
           email: customerData.email
         },
-        dataFields: await this.mapContactDataFields(dataFieldMapping, customerData),
+        dataFields: await this.mapContactDataFields(dataFieldMapping, customer),
         lists: customerData.lists || [Number(params.DOTDIGITAL_LIST_CUSTOMER)]
       }
 
