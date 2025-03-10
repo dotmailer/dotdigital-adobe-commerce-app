@@ -97,6 +97,18 @@ class OrderConsumer {
     return orderData
   }
 
+  formatOrderProperties (order) {
+    for (const key in order) {
+      if (Object.prototype.hasOwnProperty.call(order, key)) {
+        const property = order[key]
+        if ((key === 'items' || key === 'addresses') && typeof property === 'object' && !Array.isArray(property)) {
+          order[key] = Object.values(property)
+        }
+      }
+    }
+    return order
+  }
+
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
@@ -123,7 +135,7 @@ class OrderConsumer {
       body: ''
     }
     try {
-      const order = params.data.value
+      let order = params.data.value
       const requiredParams = ['entity_id', 'grand_total', 'order_currency_code', 'created_at', 'subtotal', 'items', 'customer_email', 'increment_id', 'quote_id', 'status', 'addresses', 'store_name', 'discount_amount', 'payment', 'shipping_description', 'shipping_amount']
       const errorMessage = checkMissingRequestInputs(order, requiredParams)
       if (errorMessage) {
@@ -135,6 +147,8 @@ class OrderConsumer {
       if (envErrorMessage) {
         return errorResponse(400, envErrorMessage + JSON.stringify(params), this.logger)
       }
+
+      order = this.formatOrderProperties(order)
 
       if (!order.items || !Array.isArray(order.items)) {
         return errorResponse(400, 'Order does not contain any items', this.logger)
