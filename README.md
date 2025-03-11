@@ -15,22 +15,30 @@ You may also need to:
 
 ## Acquire the app
 - Acquire the app from Adobe Exchange
-- Enter initial configuration
+- Enter initial configuration for Adobe Commerce and Dotdigital
 - Download the code
 
 ## Configuration
 - Download and unzip the project
 - Copy the env file `cp env.dist .env`
 - Fill in all required OAuth, module and workspace configs as per the comments
-- Fill in the following Dotdigital configs:
+- Fill in the following Adobe Commerce configs (unless already configured in Exchange):
 ```
+COMMERCE_BASE_URL=
+COMMERCE_CONSUMER_KEY=
+COMMERCE_CONSUMER_SECRET=
+COMMERCE_ACCESS_TOKEN=
+COMMERCE_ACCESS_TOKEN_SECRET=
+```
+- Fill in the following Dotdigital configs (unless already configured in Exchange):
+```
+DOTDIGITAL_API_URL=
 DOTDIGITAL_API_USER=
 DOTDIGITAL_API_PASSWORD=
 DOTDIGITAL_LIST_CUSTOMER=
 DOTDIGITAL_LIST_SUBSCRIBER=
 DOTDIGITAL_CATALOG_COLLECTION_NAME=
 DOTDIGITAL_DATAFIELD_MAPPING=
-DOTDIGITAL_API_URL=
 ```
 
 ## Dotdigital account configuration
