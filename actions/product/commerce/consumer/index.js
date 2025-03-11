@@ -1,29 +1,7 @@
-const { Core } = require('@adobe/aio-sdk')
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { CommerceApi, DotdigitalApi } = require('../../../../lib')
+const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasLogger } } = require('../../../mixable')
 
-class ProductConsumer {
-  /**
-   * Create a ProductConsumer.
-   * @param {object} params - The parameters for the handler.
-   */
-  constructor (params) {
-    this.logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' })
-    this.commerceApi = new CommerceApi({
-      url: params.COMMERCE_BASE_URL,
-      consumerKey: params.COMMERCE_CONSUMER_KEY,
-      consumerSecret: params.COMMERCE_CONSUMER_SECRET,
-      accessToken: params.COMMERCE_ACCESS_TOKEN,
-      accessTokenSecret: params.COMMERCE_ACCESS_TOKEN_SECRET
-    }, this.logger)
-    this.dotdigitalApi = new DotdigitalApi(
-      params.DOTDIGITAL_API_URL,
-      params.DOTDIGITAL_API_USER,
-      params.DOTDIGITAL_API_PASSWORD,
-      this.logger
-    )
-  }
-
+class ProductConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.

@@ -1,22 +1,7 @@
-const { Core } = require('@adobe/aio-sdk')
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { DotdigitalApi } = require('../../../../lib')
+const { mix, mixable: { hasDotdigitalClient, hasLogger } } = require('../../../mixable')
 
-class OrderConsumer {
-  /**
-   * Create a OrderConsumer.
-   * @param {object} params - The parameters for the handler.
-   */
-  constructor (params) {
-    this.logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' })
-    this.dotdigitalApi = new DotdigitalApi(
-      params.DOTDIGITAL_API_URL,
-      params.DOTDIGITAL_API_USER,
-      params.DOTDIGITAL_API_PASSWORD,
-      this.logger
-    )
-  }
-
+class OrderConsumer extends mix(class {}, [hasDotdigitalClient, hasLogger]) {
   /**
    * @param {Array} items Order line items
    * @returns {Promise<object>} returns transformed order line items
