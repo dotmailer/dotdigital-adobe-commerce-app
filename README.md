@@ -89,13 +89,13 @@ Read more:
 
 ## Verify
 You can confirm the success of the deployment in the Adobe Developer Console by navigating to the **Runtime** section on your workspace: 
-[screenshot to follow]
+<img width="1404" alt="Screenshot 2025-03-06 at 10 45 45" src="https://github.com/user-attachments/assets/31de1991-0d61-4930-8d66-4dee256eb8f1" />
 
 Check your App developer console to confirm the creation of the registrations:
-[screenshot to follow]
+<img width="1405" alt="Screenshot 2025-03-06 at 10 46 45" src="https://github.com/user-attachments/assets/3cd2b34a-da12-46db-a5ff-add648921e8d" />
 
 In the Adobe Commerce Admin, check the values populated in Stores > Settings > Configuration > Adobe Services > Adobe I/O Events > General configuration:
-[screenshot to follow]
+![OovdfV9g](https://github.com/user-attachments/assets/22790daf-bda9-43ab-b0af-ef83abcf50b0)
 
 ## Events
 Here are the events with the minimal required fields you need to subscribe to, it includes the REST API endpoints that could trigger these events:
