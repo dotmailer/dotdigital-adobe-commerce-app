@@ -62,9 +62,10 @@ aio console workspace select
 ```
 
 Sync your local application with the App Builder project using the following command:
-
-    aio app use
-    # Choose the option 'm' (merge) 
+```
+aio app use
+# Choose the option 'm' (merge) 
+```
 
 ### Select which components to use
 - Edit the file `app.config.yaml` if you only want to deploy specific entities.
