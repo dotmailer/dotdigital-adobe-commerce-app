@@ -20,6 +20,56 @@ application:
         license: MIT
         actions:
           $include: ./actions/subscriber/commerce/actions.config.yaml
+configSchema:
+  title: 'Dotdigital App Configurations'
+  description: 'Environment variables to connect Adobe Commerce to Dotdigital.'
+  properties:
+    - title: 'Commerce Base URL'
+      type: 'string'
+      description: 'Please provide the Base URL of your Commerce Store'
+      envKey: COMMERCE_BASE_URL
+    - title: 'Commerce Consumer Key'
+      type: 'string'
+      description: 'Please provide the Commerce Consumer Key of your Commerce Store. Found in System -> Integrations'
+      envKey: COMMERCE_CONSUMER_KEY
+    - title: 'Commerce Consumer Secret'
+      type: 'string'
+      description: 'Please provide the Commerce Consumer Secret of your Commerce Store. Found in System -> Integrations'
+      envKey: COMMERCE_CONSUMER_SECRET
+    - title: 'Commerce Access Token'
+      type: 'string'
+      description: 'Please provide the Commerce Access Token of your Commerce Store. Found in System -> Integrations'
+      envKey: COMMERCE_ACCESS_TOKEN
+    - title: 'Commerce Access Token Secret'
+      type: 'string'
+      description: 'Please provide the Commerce Access Token Secret of your Commerce Store. Found in System -> Integrations'
+      envKey: COMMERCE_ACCESS_TOKEN_SECRET
+    - title: 'Dotdigital API URL'
+      type: 'string'
+      description: 'Please provide the Dotdigital API URL'
+      default: 'https://r1-api.dotdigital.com'
+      envKey: DOTDIGITAL_API_URL
+    - title: 'Dotdigital API User'
+      type: 'string'
+      description: 'Please provide the Dotdigital API User'
+      envKey: DOTDIGITAL_API_USER
+    - title: 'Dotdigital API Password'
+      type: 'string'
+      description: 'Please provide the Dotdigital API Password'
+      envKey: DOTDIGITAL_API_PASSWORD
+    - title: 'Dotdigital Customer List Id'
+      type: 'string'
+      description: 'Please provide the Dotdigital Customer List Id'
+      envKey: DOTDIGITAL_LIST_CUSTOMER
+    - title: 'Dotdigital Subscriber List Id'
+      type: 'string'
+      description: 'Please provide the Dotdigital Subscriber List Id'
+      envKey: DOTDIGITAL_LIST_SUBSCRIBER
+    - title: 'Dotdigital Catalog Collection Name'
+      type: 'string'
+      description: 'Please provide the Dotdigital Catalog Collection Name'
+      default: 'Catalog_base_default'
+      envKey: DOTDIGITAL_CATALOG_COLLECTION_NAME
 productDependencies:
   - code: COMMC
     minVersion: 2.4.4
