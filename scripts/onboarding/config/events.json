@@ -4,24 +4,44 @@
       "com.adobe.commerce.observer.catalog_product_delete_commit_after": {
         "sampleEventTemplate": {
           "value": {
-            "id": 2,
-            "sku": "24-MB01",
-            "name": "Joust Duffle Bag",
-            "created_at": "2024-06-12 16:31:43",
-            "updated_at": "2024-08-05 10:03:49",
-            "description": "Comfortable sporty duffel bag"
+            "created_at": "2024-12-03 16:30:57",
+            "entity_id": "1",
+            "image": "/example/path/to/image.jpg",
+            "name": "Example Product Name",
+            "parent_id": 0,
+            "price": "100.000000",
+            "sku": "example-sku",
+            "status": "1",
+            "stock_data": {
+              "qty": "100"
+            },
+            "store_ids": [
+              "1"
+            ],
+            "type_id": "simple",
+            "url_key": "example-product-url"
           }
         }
       },
       "com.adobe.commerce.observer.catalog_product_save_commit_after": {
         "sampleEventTemplate": {
           "value": {
-            "id": 2,
-            "sku": "24-MB01",
-            "name": "Joust Duffle Bag",
-            "created_at": "2024-06-12 16:31:43",
-            "updated_at": "2024-08-05 10:03:49",
-            "description": "Comfortable sporty duffel bag"
+            "created_at": "2024-12-03 16:30:57",
+            "entity_id": "1",
+            "image": "/example/path/to/image.jpg",
+            "name": "Example Product Name",
+            "parent_id": 0,
+            "price": "100.000000",
+            "sku": "example-sku",
+            "status": "1",
+            "stock_data": {
+              "qty": "100"
+            },
+            "store_ids": [
+              "1"
+            ],
+            "type_id": "simple",
+            "url_key": "example-product-url"
           }
         }
       }
@@ -32,43 +52,8 @@
       "com.adobe.commerce.observer.customer_save_commit_after": {
         "sampleEventTemplate": {
           "value": {
-            "id": 123,
-            "firstname": "John",
-            "lastname": "Doe",
-            "email": "john.doe@fakedomain.com",
-            "created_at": "2024-06-12 16:31:43",
-            "updated_at": "2024-08-05 10:03:49"
-          }
-        }
-      },
-      "com.adobe.commerce.observer.customer_delete_commit_after": {
-        "sampleEventTemplate": {
-          "value": {
-            "id": 123,
-            "firstname": "John",
-            "lastname": "Doe",
-            "email": "john.doe@fakedomain.com"
-          }
-        }
-      },
-      "com.adobe.commerce.observer.customer_group_save_commit_after": {
-        "sampleEventTemplate": {
-          "value": {
-            "customer_group_code": "VIP",
-            "tax_class_id": 3,
-            "extension_attributes": {
-              "exclude_website_ids": []
-            },
-            "customer_group_id": "18"
-          }
-        }
-      },
-      "com.adobe.commerce.observer.customer_group_delete_commit_after": {
-        "sampleEventTemplate": {
-          "value": {
-            "customer_group_code": "VIP",
-            "customer_group_id": "18",
-            "tax_class_id": "3"
+            "id": 1,
+            "email": "example@example.com"
           }
         }
       }
@@ -79,10 +64,124 @@
       "com.adobe.commerce.observer.sales_order_save_commit_after": {
         "sampleEventTemplate": {
           "value": {
-            "id": "12",
-            "increment_id": "000000012",
-            "created_at": "2024-08-05 14:34:19",
-            "updated_at": "2024-08-05 14:34:19"
+            "addresses": [
+              {
+                "address_type": "shipping",
+                "city": "Example City",
+                "country_id": "EX",
+                "customer_address_id": "1",
+                "email": "example@example.com",
+                "entity_id": "101",
+                "firstname": "Example",
+                "id": "101",
+                "lastname": "User",
+                "parent_id": "51",
+                "postcode": "12345",
+                "quote_address_id": "201",
+                "region_id": "1",
+                "street": "123 Example Street",
+                "telephone": "1234567890"
+              },
+              {
+                "address_type": "billing",
+                "city": "Example City",
+                "country_id": "EX",
+                "customer_address_id": "1",
+                "email": "example@example.com",
+                "entity_id": "102",
+                "firstname": "Example",
+                "id": "102",
+                "lastname": "User",
+                "parent_id": "51",
+                "postcode": "12345",
+                "quote_address_id": "202",
+                "region_id": "1",
+                "street": "123 Example Street",
+                "telephone": "1234567890"
+              }
+            ],
+            "coupon_code": "",
+            "created_at": "2025-03-12 09:41:21",
+            "customer_email": "example@example.com",
+            "discount_amount": 0,
+            "entity_id": "21",
+            "grand_total": 65,
+            "increment_id": "000000015",
+            "items": [
+              {
+                "applied_rule_ids": "1",
+                "base_discount_amount": 0,
+                "base_discount_tax_compensation_amount": 0,
+                "base_original_price": "100.000000",
+                "base_price": 50,
+                "base_price_incl_tax": 60,
+                "base_row_total": 50,
+                "base_row_total_incl_tax": 60,
+                "base_tax_amount": 10,
+                "created_at": "2025-03-12 09:41:21",
+                "discount_amount": 0,
+                "discount_percent": 0,
+                "discount_tax_compensation_amount": 0,
+                "free_shipping": false,
+                "gift_message_available": "0",
+                "id": "70",
+                "is_qty_decimal": false,
+                "is_virtual": "0",
+                "item_id": "70",
+                "name": "Example Product Name",
+                "order_id": "1",
+                "original_price": 100,
+                "price": 50,
+                "price_incl_tax": 60,
+                "product_id": "1",
+                "product_options": {
+                  "info_buyRequest": {
+                    "item": "1",
+                    "product": "1",
+                    "qty": "1",
+                    "related_product": "",
+                    "selected_configurable_option": "",
+                    "uenc": "example-encoded-string"
+                  }
+                },
+                "product_type": "simple",
+                "qty_ordered": 1,
+                "quote_item_id": "86",
+                "row_total": 50,
+                "row_total_incl_tax": 60,
+                "row_weight": 0,
+                "sku": "example-sku",
+                "store_id": 1,
+                "tax_amount": 10,
+                "tax_percent": 20,
+                "updated_at": "2025-03-12 09:41:21"
+              }
+            ],
+            "order_currency_code": "EXC",
+            "payment": {
+              "additional_information": {
+                "method_title": "Example Payment Method"
+              },
+              "amount_ordered": 65,
+              "base_amount_ordered": 65,
+              "base_shipping_amount": 5,
+              "cc_exp_year": "0",
+              "cc_ss_start_month": "0",
+              "cc_ss_start_year": "0",
+              "entity_id": "1",
+              "extension_attributes": [],
+              "id": "1",
+              "method": "example_method",
+              "method_instance": [],
+              "parent_id": "1",
+              "shipping_amount": 5
+            },
+            "quote_id": "1",
+            "shipping_amount": 5,
+            "shipping_description": "Example Shipping Method",
+            "status": "pending",
+            "store_name": "Example Store\nExample Store View",
+            "subtotal": 50
           }
         }
       }
@@ -93,9 +192,7 @@
       "com.adobe.commerce.observer.newsletter_subscriber_save_after": {
         "sampleEventTemplate": {
           "value": {
-            "subscriber_id": 1,
-            "subscriber_email": "chaz@emailsim.io",
-            "subscriber_status": 1
+            "subscriber_email": "example@example.com"
           }
         }
       }
