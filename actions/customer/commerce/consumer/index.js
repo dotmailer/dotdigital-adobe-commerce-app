@@ -4,14 +4,14 @@ const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasDataFields, h
 /**
  * Class representing the handler for patching contacts.
  */
-class ContactPatchHandler extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
+class CustomerConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
    * @returns {Promise<object>} The result of the main function.
    */
   static async invoke (params) {
-    const handler = new ContactPatchHandler(params)
+    const handler = new CustomerConsumer(params)
     return handler.main(params)
   }
 
@@ -115,4 +115,4 @@ class ContactPatchHandler extends mix(class {}, [hasDotdigitalClient, hasCommerc
  * @param {object} params - The parameters for the handler.
  * @returns {Promise<object>} The result of the main function.
  */
-exports.main = (params) => ContactPatchHandler.invoke(params)
+exports.main = (params) => CustomerConsumer.invoke(params)
