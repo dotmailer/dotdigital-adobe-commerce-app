@@ -2,5 +2,13 @@
   "extends": "@adobe/eslint-config-aio-lib-config",
   "parserOptions": {
     "ecmaVersion": "latest"
+  },
+  "rules": {
+    "node/no-unpublished-require": [
+      "error",
+      {
+        "allowModules": ["minimatch", "recursive-readdir"]
+      }
+    ]
   }
 }
