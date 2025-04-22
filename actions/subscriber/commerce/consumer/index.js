@@ -1,8 +1,8 @@
 const { errorResponse, stringParameters } = require('../../../utils')
-const { getSubscriberStatusString } = require('../../../../utils/subscriber-status')
-const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger } } = require('../../../mixable')
+const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger } } = require('../../../mixable')
+const { STATUS_MAP } = require('../../../constants')
 
-class SubscriberConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
+class SubscriberConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
@@ -30,7 +30,7 @@ class SubscriberConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerce
       WEBSITE_NAME: 'website_name'
     })
 
-    subscriber.subscriber_status = getSubscriberStatusString(subscriber.subscriber_status)
+    subscriber.subscriber_status = (STATUS_MAP[subscriber.subscriber_status]) ? STATUS_MAP[subscriber.subscriber_status] : ''
     subscriber.store_name = await this.commerceApi.getStoreViewName(subscriber.store_id)
     subscriber.website_name = await this.commerceApi.getWebsiteName(subscriber.website_id)
 

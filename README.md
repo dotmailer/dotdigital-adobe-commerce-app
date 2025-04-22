@@ -23,6 +23,10 @@ You may also need to:
 - Copy the env file `cp env.dist .env`
 - Fill in all required OAuth, module and workspace configs as per the comments
 - Fill in the following Adobe Commerce configs (unless already configured in Exchange):
+
+```COMMERCE_BASE_URL=```
+
+### Authenticate with:
 ```
 COMMERCE_BASE_URL=
 COMMERCE_CONSUMER_KEY=
@@ -30,8 +34,16 @@ COMMERCE_CONSUMER_SECRET=
 COMMERCE_ACCESS_TOKEN=
 COMMERCE_ACCESS_TOKEN_SECRET=
 ```
-- Fill in the following Dotdigital configs (unless already configured in Exchange):
+OR
+```OAUTH_CLIENT_ID=
+OAUTH_CLIENT_SECRETS=[""]
+OAUTH_TECHNICAL_ACCOUNT_ID=
+OAUTH_TECHNICAL_ACCOUNT_EMAIL=
+OAUTH_SCOPES=[""]
+OAUTH_IMS_ORG_ID=
 ```
+- Fill in the following Dotdigital configs (unless already configured in Exchange):
+
 DOTDIGITAL_API_URL=
 DOTDIGITAL_API_USER=
 DOTDIGITAL_API_PASSWORD=
@@ -72,19 +84,21 @@ aio app use
 - Edit the `./onboarding/config/registrations.json` file if you don't need an event registration for a particular entity.
 
 ### Deploy
+
+The configurations scripts for onboarding and event subscription required before deploying:
+```
+npm run configure-events
+npm run configure-commerce-events
+```
+
 Run the following command to deploy the project; this will deploy the runtime actions needed for the onboarding step:
 ```
 aio app deploy
 ```
 
-The deployment script will automatically be followed by the starter kit processes for onboarding and event subscription:
-```
-npm run onboard
-npm run commerce-event-subscribe
-```
-
 Read more: 
-- [Starter kit onboarding](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#execute-the-onboarding)
+- [Starter kit onboarding](https://developer.adobe.com/commerce/extensibility/starter-kit/checkout/)
+- [Starter kit IMS configuration] (https://developer.adobe.com/commerce/extensibility/starter-kit/checkout/connect/)
 - [Subscribing to events in Adobe Commerce](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#subscribe-to-events-in-adobe-commerce-instance)
 
 ## Verify
@@ -103,7 +117,6 @@ Here are the events with the minimal required fields you need to subscribe to, i
 | ---- | ---- | ---- | ---- |
 | Product | observer.catalog_product_save_commit_after | id, entity_id, name, sku, stock_data.qty, price, status, type_id, url_key, image, created_at, parent_id, store_ids | product [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/products#operation/GetV1Products) / [update](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/productssku/#operation/PutV1ProductsSku) |
 | Customer | observer.customer_save_commit_after | id, email | customer [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/customers#operation/PostV1Customers) / [update](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/customerscustomerId#operation/PutV1CustomersCustomerId) |
-| Customer | observer.customer_delete_commit_after | email | customer [delete](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/customerscustomerId#operation/DeleteV1CustomersCustomerId) |
 | Order | observer.sales_order_save_commit_after | entity_id, grand_total, order_currency_code, created_at, subtotal, items, customer_email, increment_id, quote_id, status, addresses, store_name, discount_amount, payment, shipping_description, shipping_amount, coupon_code | order [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderscreate#operation/PutV1OrdersCreate) / [invoice](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdinvoice#operation/PostV1OrderOrderIdInvoice) / [ship](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdship/) / [refund](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdrefund#operation/PostV1OrderOrderIdRefund) (and others) |
 | Subscriber | observer.newsletter_subscriber_save_after  | subscriber_id, subscriber_email, subscriber_status |            |
 

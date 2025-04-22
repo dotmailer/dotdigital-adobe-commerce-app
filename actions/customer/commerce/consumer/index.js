@@ -1,10 +1,10 @@
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger } } = require('../../../mixable')
+const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger } } = require('../../../mixable')
 
 /**
  * Class representing the handler for patching contacts.
  */
-class CustomerConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasDataFields, hasLogger]) {
+class CustomerConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.

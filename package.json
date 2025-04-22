@@ -17,12 +17,16 @@
     "cloudevents": "^8.0.0",
     "core-js": "^3.37.1",
     "@adobe/aio-lib-ims": "^8.0.1",
-    "@adobe/aio-sdk": "^6.0.0",
-    "dotenv": "^16.4.5",
+    "@adobe/aio-sdk": "^6",
+    "@adobe/eslint-config-aio-lib-config": "^4.0.0",
+    "eslint-config-prettier": "^9.1.0",
     "got": "^11.8.5",
+    "js-yaml": "^4.1.0",
     "node-fetch": "^3.3.2",
     "oauth-1.0a": "^2.2.6",
-    "uuid": "^11.1.0"
+    "prettier": "^3.3.3",
+    "uuid": "^11.1.0",
+    "dotenv": "^16.4.5"
   },
   "devDependencies": {
     "@adobe/eslint-config-aio-lib-config": "^4.0.0",
@@ -36,18 +40,32 @@
     "stdout-stderr": "^0.1.13",
     "recursive-readdir": "^2.2.3",
     "minimatch": "^3.0.5",
-    "eslint-config-standard": "^17.1.0"
+    "@babel/eslint-parser": "^7.27.0",
+    "@babel/preset-react": "^7.26.3",
+    "eslint-config-standard": "^17.1.0",
+    "@types/jest": "^29.5.14",
+    "dotenv": "^16.4.5",
+    "eslint": "^8",
+    "eslint-plugin-jest": "^27.2.3",
+    "eslint-plugin-react": "^7.37.5",
+    "js-yaml": "^4.1.0",
+    "wait-for-expect": "^3.0.2"
   },
   "scripts": {
-    "test": "jest --passWithNoTests -c ./test/jest.config.js ./test",
+    "test": "jest --passWithNoTests ./test",
     "e2e": "jest --collectCoverage=false --testRegex ./e2e",
-    "onboard": "node --no-warnings -e 'require(\"./scripts/onboarding/index.js\").main()'",
-    "commerce-event-subscribe": "node --no-warnings -e 'require(\"./scripts/commerce-event-subscribe/index.js\").main()'",
-    "code-check": "npx eslint 'actions/**/*.js' 'scripts/**/*.js' 'utils/**/*.js'",
-    "dotdigital-pack": "node scripts/pack/pre-pack.js"
+    "dotdigital-pack": "node scripts/pack/pre-pack.js",
+    "lint:check": "npx eslint .",
+    "lint:fix": "npm run lint:check -- --fix",
+    "format:check": "npx prettier . --check",
+    "format:fix": "npm run format:check -- --write",
+    "code-check": "npm run lint:check",
+    "code-fix": "npm run format:fix && npm run lint:fix",
+    "configure-events": "node -e \"require('./scripts/configure-events').main()\"",
+    "configure-commerce-events": "aio console workspace download ws.json && node -e \"require('./scripts/configure-commerce-events').main('ws.json')\"; rm -f ws.json"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "aio-app-builder-templates": [
     "@adobe/generator-app-events-generic",

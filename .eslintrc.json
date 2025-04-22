@@ -3,6 +3,7 @@
   "parserOptions": {
     "ecmaVersion": "latest"
   },
+  "ignorePatterns": ["node_modules/", "dist/"],
   "rules": {
     "node/no-unpublished-require": [
       "error",

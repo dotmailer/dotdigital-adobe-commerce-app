@@ -1,7 +1,7 @@
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { mix, mixable: { hasDotdigitalClient, hasLogger } } = require('../../../mixable')
+const { mix, mixable: { hasDotdigitalApi, hasLogger } } = require('../../../mixable')
 
-class OrderConsumer extends mix(class {}, [hasDotdigitalClient, hasLogger]) {
+class OrderConsumer extends mix(class {}, [hasDotdigitalApi, hasLogger]) {
   /**
    * @param {Array} items Order line items
    * @returns {Promise<object>} returns transformed order line items
@@ -125,12 +125,6 @@ class OrderConsumer extends mix(class {}, [hasDotdigitalClient, hasLogger]) {
       const errorMessage = checkMissingRequestInputs(order, requiredParams)
       if (errorMessage) {
         return errorResponse(400, errorMessage + JSON.stringify(order), this.logger)
-      }
-
-      const requiredEnvParams = ['COMMERCE_BASE_URL', 'COMMERCE_CONSUMER_KEY', 'COMMERCE_CONSUMER_SECRET', 'COMMERCE_ACCESS_TOKEN', 'COMMERCE_ACCESS_TOKEN_SECRET', 'DOTDIGITAL_API_URL', 'DOTDIGITAL_API_USER', 'DOTDIGITAL_API_PASSWORD']
-      const envErrorMessage = checkMissingRequestInputs(params, requiredEnvParams)
-      if (envErrorMessage) {
-        return errorResponse(400, envErrorMessage + JSON.stringify(params), this.logger)
       }
 
       order = this.formatOrderProperties(order)

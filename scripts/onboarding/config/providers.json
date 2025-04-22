@@ -1,8 +1,0 @@
-[
-  {
-    "key": "commerce",
-    "label": "Commerce Provider",
-    "description": "Commerce Provider that will receive events from commerce",
-    "docs_url": null
-  }
-]

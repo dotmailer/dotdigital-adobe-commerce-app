@@ -1,12 +1,12 @@
 const { Core } = require('@adobe/aio-sdk')
-const { CommerceApi, DotdigitalApi } = require('../lib')
+const { CommerceApi, DotdigitalApi } = require('../lib/api')
 
 /**
  * Mixin to add Dotdigital client functionality.
  * @param {object} Base - The base class to extend.
  * @returns {object} The extended class with Dotdigital client functionality.
  */
-const hasDotdigitalClient = (Base) => class extends Base {
+const hasDotdigitalApi = (Base) => class extends Base {
   constructor (params) {
     super(params)
     this.dotdigitalApi = new DotdigitalApi(
@@ -23,16 +23,10 @@ const hasDotdigitalClient = (Base) => class extends Base {
  * @param {object} Base - The base class to extend.
  * @returns {object} The extended class with Commerce client functionality.
  */
-const hasCommerceClient = (Base) => class extends Base {
+const hasCommerceApi = (Base) => class extends Base {
   constructor (params) {
     super(params)
-    this.commerceApi = new CommerceApi({
-      url: params.COMMERCE_BASE_URL,
-      consumerKey: params.COMMERCE_CONSUMER_KEY,
-      consumerSecret: params.COMMERCE_CONSUMER_SECRET,
-      accessToken: params.COMMERCE_ACCESS_TOKEN,
-      accessTokenSecret: params.COMMERCE_ACCESS_TOKEN_SECRET
-    }, this.logger)
+    this.commerceApi = new CommerceApi(params, this.logger)
   }
 }
 
@@ -123,8 +117,8 @@ const mixin = (Base, mixins = []) => mixins.reduce((acc, mixin) => mixin(acc), B
 module.exports = {
   mix: mixin,
   mixable: {
-    hasDotdigitalClient,
-    hasCommerceClient,
+    hasDotdigitalApi,
+    hasCommerceApi,
     hasDataFields,
     hasLogger
   }

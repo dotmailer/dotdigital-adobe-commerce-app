@@ -1,7 +1,6 @@
 application:
   hooks:
-    post-app-deploy: ./hooks/post-app-deploy.js
-    pre-app-deploy: ./hooks/pre-app-deploy.js
+    pre-app-deploy: ./scripts/hooks/pre-app-deploy.js
   runtimeManifest:
     packages:
       starter-kit:
@@ -32,6 +31,36 @@ application:
         license: MIT
         actions:
           $include: ./actions/subscriber/commerce/actions.config.yaml
+  events:
+    registrations:
+      Customer Commerce Sync:
+        description: Customer Commerce Sync
+        events_of_interest:
+          - provider_metadata: dx_commerce_events
+            event_codes:
+              - com.adobe.commerce.observer.dotdigital.customer_save_commit_after
+        runtime_action: customer-commerce/consumer
+      Order Commerce Sync:
+        description: Order Commerce Sync
+        events_of_interest:
+          - provider_metadata: dx_commerce_events
+            event_codes:
+              - com.adobe.commerce.observer.dotdigital.sales_order_save_commit_after
+        runtime_action: order-commerce/consumer
+      Product Commerce Sync:
+        description: Product Commerce Sync
+        events_of_interest:
+          - provider_metadata: dx_commerce_events
+            event_codes:
+              - com.adobe.commerce.observer.dotdigital.catalog_product_save_commit_after
+        runtime_action: product-commerce/consumer
+      Subscriber Commerce Sync:
+        description: Subscriber Commerce Sync
+        events_of_interest:
+          - provider_metadata: dx_commerce_events
+            event_codes:
+              - com.adobe.commerce.observer.dotdigital.newsletter_subscriber_save_after
+        runtime_action: subscriber-commerce/consumer
 productDependencies:
   - code: COMMC
     minVersion: 2.4.4

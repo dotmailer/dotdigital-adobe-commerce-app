@@ -1,7 +1,7 @@
 const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
-const { mix, mixable: { hasDotdigitalClient, hasCommerceClient, hasLogger } } = require('../../../mixable')
+const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasLogger } } = require('../../../mixable')
 
-class ProductConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceClient, hasLogger]) {
+class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, hasLogger]) {
   /**
    * Static method to invoke the main function.
    * @param {object} params - The parameters for the handler.
@@ -33,12 +33,6 @@ class ProductConsumer extends mix(class {}, [hasDotdigitalClient, hasCommerceCli
       const errorMessage = checkMissingRequestInputs(product, requiredParams)
       if (errorMessage) {
         return errorResponse(400, errorMessage + JSON.stringify(product), this.logger)
-      }
-
-      const requiredEnvParams = ['COMMERCE_BASE_URL', 'COMMERCE_CONSUMER_KEY', 'COMMERCE_CONSUMER_SECRET', 'COMMERCE_ACCESS_TOKEN', 'COMMERCE_ACCESS_TOKEN_SECRET', 'DOTDIGITAL_API_URL', 'DOTDIGITAL_API_USER', 'DOTDIGITAL_API_PASSWORD', 'DOTDIGITAL_CATALOG_COLLECTION_NAME']
-      const envErrorMessage = checkMissingRequestInputs(params, requiredEnvParams)
-      if (envErrorMessage) {
-        return errorResponse(400, envErrorMessage + JSON.stringify(params), this.logger)
       }
 
       const storeLinkUrl = await this.commerceApi.getStoreUrl(product.store_ids[0], 'link')

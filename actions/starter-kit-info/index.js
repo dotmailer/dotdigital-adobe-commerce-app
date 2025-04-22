@@ -25,7 +25,6 @@ const { HTTP_OK, HTTP_INTERNAL_ERROR } = require('../constants')
  */
 async function main (params) {
   const version = require('../../package.json').version
-  const registrations = require('../../scripts/onboarding/config/registrations.json')
 
   // create a Logger
   const logger = Core.Logger('starter-kit-info', { level: params.LOG_LEVEL || 'info' })
@@ -37,8 +36,7 @@ async function main (params) {
     // log the response status code
     logger.info(`Successful request: ${HTTP_OK}`)
     return actionSuccessResponse({
-      starter_kit_version: version,
-      registrations
+      starter_kit_version: version
     })
   } catch (error) {
     // log any server errors
