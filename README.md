@@ -26,15 +26,15 @@ You may also need to:
 
 ```COMMERCE_BASE_URL=```
 
-### Authenticate with:
+### Authentication
+You can configure a Commerce Integration with:
 ```
-COMMERCE_BASE_URL=
 COMMERCE_CONSUMER_KEY=
 COMMERCE_CONSUMER_SECRET=
 COMMERCE_ACCESS_TOKEN=
 COMMERCE_ACCESS_TOKEN_SECRET=
 ```
-OR
+Or an Adobe Identity Management Integration (IMS) with:
 ```OAUTH_CLIENT_ID=
 OAUTH_CLIENT_SECRETS=[""]
 OAUTH_TECHNICAL_ACCOUNT_ID=
@@ -42,8 +42,18 @@ OAUTH_TECHNICAL_ACCOUNT_EMAIL=
 OAUTH_SCOPES=[""]
 OAUTH_IMS_ORG_ID=
 ```
-- Fill in the following Dotdigital configs (unless already configured in Exchange):
+For IMS, don't forget to create an admin user in Adobe Commerce with the email of the technical account user from your workspace's OAuth Server-to-Server configuration.
+- [Read more](https://developer.adobe.com/commerce/extensibility/starter-kit/checkout/connect/#authentication)
 
+### Event Provider configuration
+Update your provider label in events.config.yaml to match your target project, for example:
+```
+Commerce events provider - 3527417-dotdigital-stage
+```
+
+## Dotdigital account configuration
+- Fill in the following Dotdigital configs (unless already configured in Exchange):
+```
 DOTDIGITAL_API_URL=
 DOTDIGITAL_API_USER=
 DOTDIGITAL_API_PASSWORD=
@@ -53,7 +63,6 @@ DOTDIGITAL_CATALOG_COLLECTION_NAME=
 DOTDIGITAL_DATAFIELD_MAPPING=
 ```
 
-## Dotdigital account configuration
 You must ensure that any data fields you include in your `DOTDIGITAL_DATAFIELD_MAPPING` array exist in your Dotdigital account.
 
 ## Deployment
@@ -83,13 +92,15 @@ aio app use
 - Edit the file `app.config.yaml` if you only want to deploy specific entities.
 - Edit the `./onboarding/config/registrations.json` file if you don't need an event registration for a particular entity.
 
-### Deploy
+### Onboarding and event subscription
 
-The configurations scripts for onboarding and event subscription required before deploying:
+Run these configuration scripts for onboarding and event subscription before deploying:
 ```
 npm run configure-events
 npm run configure-commerce-events
 ```
+
+### Deploy
 
 Run the following command to deploy the project; this will deploy the runtime actions needed for the onboarding step:
 ```
@@ -115,7 +126,7 @@ In the Adobe Commerce Admin, check the values populated in Stores > Settings > C
 Here are the events with the minimal required fields you need to subscribe to, it includes the REST API endpoints that could trigger these events:
 | Entity  | Event | Required fields | REST API Ref |
 | ---- | ---- | ---- | ---- |
-| Product | observer.catalog_product_save_commit_after | id, entity_id, name, sku, stock_data.qty, price, status, type_id, url_key, image, created_at, parent_id, store_ids | product [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/products#operation/GetV1Products) / [update](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/productssku/#operation/PutV1ProductsSku) |
+| Product | observer.catalog_product_save_commit_after | id, entity_id, name, sku, stock_data.qty, price, status, type_id, url_key, image, created_at, parent_id, store_ids | product [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/products#operation/PostV1Products) / [update](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/productssku/#operation/PutV1ProductsSku) |
 | Customer | observer.customer_save_commit_after | id, email | customer [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/customers#operation/PostV1Customers) / [update](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/customerscustomerId#operation/PutV1CustomersCustomerId) |
 | Order | observer.sales_order_save_commit_after | entity_id, grand_total, order_currency_code, created_at, subtotal, items, customer_email, increment_id, quote_id, status, addresses, store_name, discount_amount, payment, shipping_description, shipping_amount, coupon_code | order [create](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderscreate#operation/PutV1OrdersCreate) / [invoice](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdinvoice#operation/PostV1OrderOrderIdInvoice) / [ship](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdship/) / [refund](https://adobe-commerce.redoc.ly/2.4.7-admin/tag/orderorderIdrefund#operation/PostV1OrderOrderIdRefund) (and others) |
 | Subscriber | observer.newsletter_subscriber_save_after  | subscriber_id, subscriber_email, subscriber_status |            |
