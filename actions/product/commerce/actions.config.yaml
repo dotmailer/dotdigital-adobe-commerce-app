@@ -5,6 +5,8 @@ consumer:
   inputs:
     $include: ../../auth.config.yaml
     DOTDIGITAL_CATALOG_COLLECTION_NAME: $DOTDIGITAL_CATALOG_COLLECTION_NAME
+    DOTDIGITAL_CATALOG_BASE_LINK_URL: $DOTDIGITAL_CATALOG_BASE_LINK_URL
+    DOTDIGITAL_CATALOG_BASE_MEDIA_URL: $DOTDIGITAL_CATALOG_BASE_MEDIA_URL
   annotations:
     require-adobe-auth: true
     final: true

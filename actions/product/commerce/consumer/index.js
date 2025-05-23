@@ -29,14 +29,15 @@ class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, h
     }
     try {
       const product = params.data.value
-      const requiredParams = ['entity_id', 'name', 'sku', 'stock_data', 'price', 'status', 'type_id', 'url_key', 'image', 'created_at', 'store_ids']
+      const storeId = product.store_ids ? product.store_ids[0] : params.data._metadata.storeId
+      const requiredParams = ['entity_id', 'name', 'sku', 'stock_data', 'price', 'status', 'type_id', 'url_key', 'image', 'created_at']
       const errorMessage = checkMissingRequestInputs(product, requiredParams)
       if (errorMessage) {
         return errorResponse(400, errorMessage + JSON.stringify(product), this.logger)
       }
 
-      const storeLinkUrl = await this.commerceApi.getStoreUrl(product.store_ids[0], 'link')
-      const storeMediaUrl = await this.commerceApi.getStoreUrl(product.store_ids[0], 'media')
+      const storeLinkUrl = params.DOTDIGITAL_CATALOG_BASE_LINK_URL || await this.commerceApi.getStoreUrl(storeId, 'link')
+      const storeMediaUrl = params.DOTDIGITAL_CATALOG_BASE_MEDIA_URL || await this.commerceApi.getStoreUrl(storeId, 'media')
 
       // transform product payload
       const productData = {
@@ -48,7 +49,7 @@ class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, h
         sku: product.sku,
         created_date: new Date(product.created_at).toISOString(),
         price: product.price,
-        url: `${storeLinkUrl}${product.url_key}.html`,
+        url: `${storeLinkUrl}${product.url_key}/${product.sku}`,
         imagePath: `${storeMediaUrl}catalog/product${product.image}`
       }
 
