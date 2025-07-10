@@ -2,9 +2,33 @@
 
 Welcome to the Dotdigital for Adobe Commerce accelerator app.
 
-Our app provides a simple starter integration with Adobe Commerce via Adobe App Builder. It will perform single synchronizations of customers, subscribers, products and orders into Dotdigital.
+Our app provides a simple starter integration with Adobe Commerce via Adobe App Builder. It will perform single synchronizations of customers, subscribers, products and orders into [Dotdigital](https://dotdigital.com).
+
+## Description
+
+### Customer sync
+- New and updated customers are sent to Dotdigital, and added to the specified customer list.
+- Customers will be created with a subset of data fields, including email, first name, last name, and customer group.
+- Historical sync is not yet supported.
+
+### Subscriber sync
+- New and updated newsletter subscribers are sent to Dotdigital, and added to the specified subscriber list.
+- Subscribers will be created with data fields for store name, website name and subscriber status.
+- Historical sync is not yet supported.
+- Newsletter subscribers are not supported in Adobe Commerce SaaS.
+
+### Order sync
+- New and updated orders are sent to Dotdigital as contact insight data.
+- Order data will include all required fields including prices, addresses, items, and other order details.
+- Historical sync is not yet supported.
+
+### Product sync
+- New and updated products are sent to Dotdigital, and added to the specified catalog insight data collection.
+- Historical sync is not yet supported.
 
 ## Prerequisites
+You will need a Dotdigital account. General support and usage for the Dotdigital platform is available in the [Dotdigital Help Centre](https://support.dotdigital.com/en/).
+
 Merchants should be familiar with Adobe’s [Commerce Integration Starter Kit](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#prerequisites) and their [public documentation](https://developer.adobe.com/commerce/extensibility/starter-kit/integration/) for this project. You will need to:
 
 - [Create an App Builder project](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#create-app-builder-project) in the Adobe developer console
@@ -65,7 +89,12 @@ DOTDIGITAL_CATALOG_BASE_MEDIA_URL=
 DOTDIGITAL_DATAFIELD_MAPPING=
 ```
 
-You must ensure that any data fields you include in your `DOTDIGITAL_DATAFIELD_MAPPING` array exist in your Dotdigital account.
+You must ensure that any data fields you include in your `DOTDIGITAL_DATAFIELD_MAPPING` array exist in your Dotdigital account. 
+
+Please refer back to the Dotdigital documentation for more information:
+- [Create an API user](https://support.dotdigital.com/en/articles/8199489-create-an-api-user)
+- [Create a contact list](https://support.dotdigital.com/en/articles/8198769-create-a-contact-list)
+- [Create, delete, and edit custom data fields](https://support.dotdigital.com/en/collections/5610000-data-fields-and-marketing-preferences)
 
 ## Deployment
 Following the next steps, you will deploy and onboard the starter kit for the first time. The onboarding process sets up event providers and registrations based on your selection.
