@@ -1,4 +1,5 @@
-const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
+const { checkMissingRequestInputs } = require('../../../../lib/utils')
+const { successResponse, errorResponse } = require('../../../../lib/responses')
 const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger } } = require('../../../mixable')
 
 /**
@@ -97,12 +98,10 @@ class CustomerConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, 
 
       const dotdigitalContact = await this.dotdigitalApi.patchContactByEmail(customerData.email, contact)
 
-      return {
-        body: {
-          message: 'Contact created successfully',
-          contact: dotdigitalContact
-        }
-      }
+      return successResponse({
+        message: 'Contact created successfully',
+        contact: dotdigitalContact
+      })
     } catch (error) {
       this.logger.error(error)
       return errorResponse(error?.status ?? 500, error.message, this.logger)

@@ -35,7 +35,7 @@ Merchants should be familiar with Adobe’s [Commerce Integration Starter Kit](h
 - [Configure a new integration in Commerce](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#configure-a-new-integration-in-commerce)
 
 You may also need to:
-- [Install or update additional modules in Commerce](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#install-commerce-eventing-module-only-required-when-running-adobe-commerce-versions-244-or-245)  
+- [Install or update additional modules in Commerce](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#install-commerce-eventing-module-only-required-when-running-adobe-commerce-versions-244-or-245)
 
 ## Acquire the app
 - Acquire the app from Adobe Exchange
@@ -121,7 +121,7 @@ aio app use
 
 ### Select which components to use
 - Edit the file `app.config.yaml` if you only want to deploy specific entities.
-- Edit the `./onboarding/config/registrations.json` file if you don't need an event registration for a particular entity.
+- Edit the `events.config.yaml` file if you don't need an event registration for a particular entity.
 
 ### Onboarding and event subscription
 
@@ -137,14 +137,15 @@ Run the following command to deploy the project; this will deploy the runtime ac
 ```
 aio app deploy
 ```
+To deploy your actions as webhook actions with `web:yes` - use `DEPLOY_WEBHOOK_ACTIONS=1` in your .env file.
 
-Read more: 
+Read more:
 - [Starter kit onboarding](https://developer.adobe.com/commerce/extensibility/starter-kit/checkout/)
 - [Starter kit IMS configuration] (https://developer.adobe.com/commerce/extensibility/starter-kit/checkout/connect/)
 - [Subscribing to events in Adobe Commerce](https://github.com/adobe/commerce-integration-starter-kit/blob/main/README.md#subscribe-to-events-in-adobe-commerce-instance)
 
 ## Verify
-You can confirm the success of the deployment in the Adobe Developer Console by navigating to the **Runtime** section on your workspace: 
+You can confirm the success of the deployment in the Adobe Developer Console by navigating to the **Runtime** section on your workspace:
 <img width="1404" alt="Screenshot 2025-03-06 at 10 45 45" src="https://github.com/user-attachments/assets/31de1991-0d61-4930-8d66-4dee256eb8f1" />
 
 Check your App developer console to confirm the creation of the registrations:

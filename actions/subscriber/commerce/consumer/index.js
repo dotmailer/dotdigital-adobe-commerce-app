@@ -1,6 +1,6 @@
-const { errorResponse, stringParameters } = require('../../../utils')
+const { STATUS_MAP } = require('../../../../lib/constants')
+const { successResponse, errorResponse } = require('../../../../lib/responses')
 const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger } } = require('../../../mixable')
-const { STATUS_MAP } = require('../../../constants')
 
 class SubscriberConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, hasDataFields, hasLogger]) {
   /**
@@ -45,8 +45,6 @@ class SubscriberConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi
    */
   async main (params) {
     try {
-      this.logger.info(`Consumer main params: ${stringParameters(params)}`)
-
       const subscriberData = params.data.value
       const eventMetaData = params.data._metadata
       const identifier = subscriberData.subscriber_email
@@ -64,12 +62,10 @@ class SubscriberConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi
 
       const dotdigitalContact = await this.dotdigitalApi.patchContactByEmail(identifier, payload)
 
-      return {
-        body: {
-          message: 'Contact created successfully',
-          contact: dotdigitalContact
-        }
-      }
+      return successResponse({
+        message: 'Contact created successfully',
+        contact: dotdigitalContact
+      })
     } catch (error) {
       this.logger.error(error)
       return errorResponse(error?.status ?? 500, error.message, this.logger)

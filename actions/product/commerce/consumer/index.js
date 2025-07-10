@@ -1,4 +1,5 @@
-const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
+const { checkMissingRequestInputs } = require('../../../../lib/utils')
+const { successResponse, errorResponse } = require('../../../../lib/responses')
 const { mix, mixable: { hasDotdigitalApi, hasCommerceApi, hasLogger } } = require('../../../mixable')
 
 class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, hasLogger]) {
@@ -20,13 +21,6 @@ class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, h
    */
 
   async main (params) {
-    const returnObject = {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: ''
-    }
     try {
       const product = params.data.value
       const storeId = product.store_ids ? product.store_ids[0] : params.data._metadata.storeId
@@ -59,15 +53,13 @@ class ProductConsumer extends mix(class {}, [hasDotdigitalApi, hasCommerceApi, h
       }
 
       const response = await this.dotdigitalApi.putProductById(product.entity_id, params.DOTDIGITAL_CATALOG_COLLECTION_NAME, productData)
+      const message = Buffer.from(JSON.stringify(response)).toString()
 
-      returnObject.statusCode = 200
-      returnObject.body = Buffer.from(JSON.stringify(response)).toString()
+      return successResponse(message)
     } catch (error) {
       this.logger.error(error)
       return errorResponse(error?.status ?? 500, error.message, this.logger)
     }
-
-    return returnObject
   }
 }
 /**

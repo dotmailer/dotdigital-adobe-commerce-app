@@ -18,13 +18,13 @@ const additionalExcludes = [
   '.gitignore',
   'docs',
   '.pre-pack-*',
-  '.git',
-  '.env' // This excludes only `.env`, not `env.dist`
+  '.git'
 ]
 
 const forceIncludes = [
   'node_modules',
-  '.aio'
+  '.aio',
+  '.env'
 ]
 
 const getPatternsFromFile = (path) => {

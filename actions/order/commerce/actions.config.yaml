@@ -1,7 +1,7 @@
 consumer:
   function: consumer/index.js
   web: 'no'
-  runtime: nodejs:20
+  runtime: nodejs:22
   inputs:
     $include: ../../auth.config.yaml
   annotations:

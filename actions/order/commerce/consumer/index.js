@@ -1,4 +1,5 @@
-const { errorResponse, checkMissingRequestInputs } = require('../../../utils')
+const { checkMissingRequestInputs } = require('../../../../lib/utils')
+const { successResponse, errorResponse } = require('../../../../lib/responses')
 const { mix, mixable: { hasDotdigitalApi, hasLogger } } = require('../../../mixable')
 
 class OrderConsumer extends mix(class {}, [hasDotdigitalApi, hasLogger]) {
@@ -112,13 +113,6 @@ class OrderConsumer extends mix(class {}, [hasDotdigitalApi, hasLogger]) {
    */
 
   async main (params) {
-    const returnObject = {
-      statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: ''
-    }
     try {
       let order = params.data.value
       const requiredParams = ['entity_id', 'grand_total', 'order_currency_code', 'created_at', 'subtotal', 'items', 'customer_email', 'increment_id', 'quote_id', 'status', 'addresses', 'store_name', 'discount_amount', 'payment', 'shipping_description', 'shipping_amount']
@@ -164,15 +158,13 @@ class OrderConsumer extends mix(class {}, [hasDotdigitalApi, hasLogger]) {
       orderData = this.addOrderAddresses(orderData, order.addresses)
 
       const response = await this.dotdigitalApi.putOrderById(order.customer_email, orderData)
+      const message = Buffer.from(JSON.stringify(response)).toString()
 
-      returnObject.statusCode = 200
-      returnObject.body = Buffer.from(JSON.stringify(response)).toString()
+      return successResponse(message)
     } catch (error) {
       this.logger.error(error)
       return errorResponse(error?.status ?? 500, error.message, this.logger)
     }
-
-    return returnObject
   }
 }
 /**

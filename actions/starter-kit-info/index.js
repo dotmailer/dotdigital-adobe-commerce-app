@@ -11,8 +11,8 @@ governing permissions and limitations under the License.
 */
 
 const { Core } = require('@adobe/aio-sdk')
-const { actionSuccessResponse, actionErrorResponse } = require('../responses')
-const { HTTP_OK, HTTP_INTERNAL_ERROR } = require('../constants')
+const { actionSuccessResponse, actionErrorResponse } = require('../../lib/responses')
+const { HTTP_OK, HTTP_INTERNAL_ERROR } = require('../../lib/constants')
 
 /**
  * Please DO NOT DELETE this action; future functionalities planned for upcoming starter kit releases may stop working.
